@@ -1,0 +1,5 @@
+#!/bin/sh
+# The excellent ClickRepair tool.  Try it.
+# http://www.clickrepair.net/
+java -cp ~/stable_trees/ClickRepair/JClickRepair.jar JClickRepair
+
