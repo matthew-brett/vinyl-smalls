@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 ''' Script to record soundcard output to wav file
+
 Uses:
 http://pyalsaudio.sourceforge.net/module-alsaaudio.html
 
 to set up the sound card in a repeatable way
 
 e.g apt-get install python-alsaaudio
+
+You'll need and almost certainly have ``arecord`` from Debian package
+``alsa-utils``.
 '''
 
 from os.path import join as pjoin, dirname
