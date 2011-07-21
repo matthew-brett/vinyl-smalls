@@ -65,7 +65,8 @@ if __name__ == '__main__':
     # Set volumes and other things for audigy
     reset_card(OUTVOLUME, INVOLUME, NX_NAME)
     # touch output file to wake up external drive
-    retcode = call('touch %s' % fname, shell=True)
+    with open(fname, 'wb'):
+        pass
     print 'Press return to start recording %s' % fname
     sys.stdin.readline()
     # Start recording

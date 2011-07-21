@@ -30,7 +30,7 @@ for arg in sys.argv[1:]:
         path = wav_dir
     i_fname = pjoin(path, fname)
     c_fname = pjoin(wav_441_dir, fname)
-    exec_str = 'sox %s -r 44100 %s resample -ql' % (i_fname, c_fname)
+    exec_str = 'sox %s %s rate -v 44100' % (i_fname, c_fname)
     print exec_str
     subprocess.call(exec_str, shell=True)
 
