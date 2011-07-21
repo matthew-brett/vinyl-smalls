@@ -10,6 +10,13 @@ e.g apt-get install python-alsaaudio
 
 You'll need and almost certainly have ``arecord`` from Debian package
 ``alsa-utils``.
+
+The SVG and code inspiration for the GTK applet thing was from:
+
+https://gitorious.org/tomate
+
+which is under the GPL3 license.  Accordingly, so is this file, and the tomato
+graphic.
 '''
 
 from os.path import join as pjoin, dirname
@@ -20,7 +27,14 @@ from ConfigParser import ConfigParser
 
 import alsaaudio as aa
 
-cfg_file = pjoin(dirname(__file__), 'vinyl.ini')
+import pygtk
+pygtk.require('2.0')
+import gtk
+gtk.gdk.threads_init()
+
+MYDIR = dirname(__file__)
+
+cfg_file = pjoin(MYDIR, 'vinyl.ini')
 cfg = ConfigParser()
 cfg.read(cfg_file)
 
@@ -53,6 +67,16 @@ def record_to(fname):
     return Popen(shlex.split(cmd), stdin=PIPE, stdout=PIPE)
 
 
+class LPWait(object):
+    def __init__(self):
+        self.icon=gtk.status_icon_new_from_file(pjoin(MYDIR, 'tomato.png'))
+        self.icon.connect('activate', gtk.main_quit)
+        self.icon.set_visible(True)
+
+    def main(self):
+        gtk.main()
+
+
 if __name__ == '__main__':
     try:
         fname = sys.argv[1]
@@ -71,9 +95,9 @@ if __name__ == '__main__':
     sys.stdin.readline()
     # Start recording
     proc = record_to(fname)
-    print 'Press return to end'
-    # Catch return and keyboard interrupts to kill recording
+    print 'Click tomato to end'
+    app = LPWait()
     try:
-        sys.stdin.readline()
-    finally: # catches keyboard interrupt
+        app.main()
+    finally:
         proc.terminate()
